@@ -2,20 +2,39 @@
 
 namespace App\Controller;
 
+use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
 class CartController extends AbstractController
 {
     /**
      * @Route("/panier", name="cart_index")
      */
-    public function index()
+    public function index(SessionInterface $session, ProductRepository $productRepository) 
     {
-        return $this->render('cart/index.html.twig', []);
-    }
+        $panier = $session->get('panier', []);
+        // Pour pouvoir afficher les produits à l'utilisateur
+
+        $panierWithData = [];
+
+        foreach($panier as $id => $quantity) {
+
+            $panierWithData[] = [
+                'product' => $productRepository->find($id),
+                'quantity' => $quantity
+            ];
+        }
+
+        return $this->render('cart/index.html.twig', [
+        
+        'items' => $panierWithData
+        
+        ]);
+    } 
     /**
      * @Route("/panier/add/{id}", name="cart_add")
      */
@@ -35,16 +54,11 @@ class CartController extends AbstractController
 
         }
 
-
-        $session->set('panier', $panier);
+       $session->set('panier', $panier);
 
         // Je prends c'est qu'il ya dans mon panier à l'époque je l'altère  en mettant c'est que j'ai de nouveau
 
-        dd($session->get('panier'));
+      // dd($session->get('panier'));
 
-
-
-
-
-    }
+}
 }
