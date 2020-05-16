@@ -23,26 +23,20 @@
      <tbody>
       {% for item in items %}
       <tr>
-      <td>{{ item.Product.title}}</td>
-       <td>{{ item.Product.price}}</td>
+      <td>{{ item.product.title}}</td>
+       <td>{{ item.product.price}}</td>
         <td>{{ item.quantity}}</td>
-         <td>{{ item.Product.price * item.quantity}}</td>
+         <td>{{ item.product.price * item.quantity}}</td>
           <td>
              <a href="#" class="btn btn-danger btn-sm">
              <i class="fas fa-trash"></i>
              </a>
-          
-          </td>
-
-
-      </tr>
-
-
-     </tbody>
+           </td>
+          </tr>
+          {% endfor %}
+    </tbody>
  </table>
-
-
-    {% else %}
+{% else %}
     <p>Surprise, c'est vide !</p>
 
      {% endif %}
