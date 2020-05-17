@@ -27,10 +27,18 @@ class CartController extends AbstractController
                 'quantity' => $quantity
             ];
         }
+
+        $total = 0;
+
+        foreach($panierWithData as $item) {
+            $totalItem = $item['product']->getPrice() * $item['quantity'];
+            $total += $totalItem;
+        }
         
         return $this->render('cart/index.html.twig', [
         
-        'items' => $panierWithData
+        'items' => $panierWithData,
+        'total' => $total
         
         ]);
     } 
